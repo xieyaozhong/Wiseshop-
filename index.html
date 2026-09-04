@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a7d67" />
+  <meta name="description" content="店智 AI｜給小店使用的自動營運管理系統：訂單、庫存、客戶、財務、任務與 AI 營運建議。" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <title>店智 AI｜智慧營運助手</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="appShell" class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="回到首頁">
+        <span class="brand-mark">智</span>
+        <span><strong>店智 AI</strong><small>WiseShop OS</small></span>
+      </a>
+      <nav id="mainNav" class="main-nav" aria-label="主要功能">
+        <button data-route="dashboard" class="nav-item active"><span>⌂</span>營運總覽</button>
+        <button data-route="orders" class="nav-item"><span>▣</span>訂單中心</button>
+        <button data-route="inventory" class="nav-item"><span>◫</span>智慧庫存</button>
+        <button data-route="customers" class="nav-item"><span>◎</span>顧客 CRM</button>
+        <button data-route="finance" class="nav-item"><span>＄</span>收支管理</button>
+        <button data-route="automations" class="nav-item"><span>↻</span>自動化</button>
+        <button data-route="copilot" class="nav-item"><span>✦</span>AI 店長</button>
+        <button data-route="insights" class="nav-item"><span>⌁</span>智慧洞察</button>
+      </nav>
+      <div class="sidebar-card">
+        <div class="eyebrow">場域驗證模式</div>
+        <strong id="shopNameSide">石岡日常商店</strong>
+        <p>資料先存在本機，沒有網路也能使用</p>
+        <span id="syncBadge" class="status-pill success">● 本機已同步</span>
+      </div>
+      <button id="installBtn" class="ghost-btn hidden">＋ 安裝到裝置</button>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" id="pageEyebrow">今天的營運狀況</div>
+          <h1 id="pageTitle">營運總覽</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="quickAddBtn" class="secondary-btn">＋ 快速新增</button>
+          <button id="notifyBtn" class="icon-btn" title="開啟提醒">🔔</button>
+          <div class="profile-pill">
+            <span class="avatar">店</span>
+            <span><strong id="shopNameTop">石岡日常商店</strong><small>店長模式</small></span>
+          </div>
+        </div>
+      </header>
+
+      <section id="view" class="view" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <div id="mobileBar" class="mobile-bar">
+    <button data-route="dashboard" class="active">⌂<small>總覽</small></button>
+    <button data-route="orders">▣<small>訂單</small></button>
+    <button data-route="inventory">◫<small>庫存</small></button>
+    <button data-route="copilot">✦<small>AI 店長</small></button>
+    <button id="moreBtn">•••<small>更多</small></button>
+  </div>
+
+  <dialog id="modal" class="modal">
+    <form method="dialog" class="modal-card" id="modalForm">
+      <div class="modal-head">
+        <div><div class="eyebrow" id="modalEyebrow">快速新增</div><h2 id="modalTitle">新增資料</h2></div>
+        <button value="cancel" class="icon-btn" aria-label="關閉">✕</button>
+      </div>
+      <div id="modalBody"></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
