@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0d6f5c" />
+  <meta name="description" content="店智 AI 店家操作台：快速開單、結帳、庫存調整、顧客查詢與今日待辦。" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <title>店家操作台｜店智 AI</title>
+  <link rel="stylesheet" href="./shop.css" />
+</head>
+<body>
+  <div class="merchant-shell">
+    <header class="merchant-header">
+      <div class="brand-row">
+        <a class="brand" href="./index.html" aria-label="回到店長後台">
+          <span class="brand-mark">智</span>
+          <span><strong>店智 AI</strong><small>店家操作台</small></span>
+        </a>
+        <div class="header-actions">
+          <button id="notifyBtn" class="icon-button" title="開啟提醒">🔔</button>
+          <a class="manager-link" href="./index.html">店長後台</a>
+        </div>
+      </div>
+      <div class="shop-status-row">
+        <div>
+          <div class="eyebrow">今日現場</div>
+          <h1 id="shopName">石岡日常商店</h1>
+        </div>
+        <span class="open-pill">● 營業中</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="today-strip" aria-label="今日營運摘要">
+        <article><span>今日營收</span><strong id="todayRevenue">$0</strong><small>即時更新</small></article>
+        <article><span>待處理</span><strong id="pendingCount">0</strong><small>筆訂單</small></article>
+        <article><span>低庫存</span><strong id="lowStockCount">0</strong><small>項商品</small></article>
+      </section>
+
+      <section class="focus-card" id="focusCard">
+        <div>
+          <div class="eyebrow">AI 今日提醒</div>
+          <h2>先把最重要的事處理掉</h2>
+          <p id="focusText">正在整理今日營運狀況…</p>
+        </div>
+        <button id="runCheckBtn" class="soft-button">重新檢查</button>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title">
+          <div><div class="eyebrow">最常用功能</div><h2>快速操作</h2></div>
+          <span class="hint">手機單手就能完成</span>
+        </div>
+        <div class="action-grid">
+          <button class="action-card primary" data-action="new-order">
+            <span class="action-icon">＋</span><strong>快速開單</strong><small>門市／LINE／IG</small>
+          </button>
+          <button class="action-card" data-action="checkout">
+            <span class="action-icon">✓</span><strong>快速結帳</strong><small>完成待處理訂單</small>
+          </button>
+          <button class="action-card" data-action="inventory">
+            <span class="action-icon">▦</span><strong>庫存調整</strong><small>進貨／售出／盤點</small>
+          </button>
+          <button class="action-card" data-action="customer">
+            <span class="action-icon">◎</span><strong>查顧客</strong><small>消費紀錄與標籤</small>
+          </button>
+          <button class="action-card" data-action="task">
+            <span class="action-icon">☑</span><strong>新增待辦</strong><small>交班不漏事情</small>
+          </button>
+          <button class="action-card" data-action="expense">
+            <span class="action-icon">＄</span><strong>快速記帳</strong><small>進貨／耗材／其他</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="two-column">
+        <div class="panel">
+          <div class="panel-head">
+            <div><div class="eyebrow">正在處理</div><h2>今日訂單</h2></div>
+            <button class="text-button" data-action="new-order">＋ 新增</button>
+          </div>
+          <div id="orderList" class="stack-list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div><div class="eyebrow">交班清單</div><h2>今日待辦</h2></div>
+            <button class="text-button" data-action="task">＋ 待辦</button>
+          </div>
+          <div id="taskList" class="stack-list"></div>
+        </div>
+      </section>
+
+      <section class="panel inventory-watch">
+        <div class="panel-head">
+          <div><div class="eyebrow">自動補貨監控</div><h2>需要注意的庫存</h2></div>
+          <button class="text-button" data-action="inventory">調整庫存</button>
+        </div>
+        <div id="stockList" class="stock-list"></div>
+      </section>
+
+      <section class="panel recent-panel">
+        <div class="panel-head">
+          <div><div class="eyebrow">剛剛發生</div><h2>操作紀錄</h2></div>
+          <span id="saveState" class="save-state">● 本機已儲存</span>
+        </div>
+        <div id="activityList" class="activity-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="modal" class="modal">
+    <form method="dialog" id="modalForm" class="modal-card">
+      <div class="modal-head">
+        <div><div class="eyebrow" id="modalEyebrow">快速操作</div><h2 id="modalTitle">新增</h2></div>
+        <button class="close-button" value="cancel" aria-label="關閉">✕</button>
+      </div>
+      <div id="modalBody"></div>
+    </form>
+  </dialog>
+
+  <nav class="bottom-dock" aria-label="店家快捷功能">
+    <button data-action="new-order"><span>＋</span><small>開單</small></button>
+    <button data-action="checkout"><span>✓</span><small>結帳</small></button>
+    <button data-action="inventory"><span>▦</span><small>庫存</small></button>
+    <button data-action="customer"><span>◎</span><small>顧客</small></button>
+  </nav>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="./shop.js"></script>
+</body>
+</html>
